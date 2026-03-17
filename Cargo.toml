@@ -1,0 +1,13 @@
+[package]
+name = "fsn-init"
+version = "0.1.0"
+edition = "2021"
+description = "FreeSynergy Init — bootstraps a node by cloning the official store"
+
+[[bin]]
+name = "fsn-init"
+path = "src/main.rs"
+
+[dependencies]
+gix = { version = "0.70", default-features = false, features = ["blocking-http-transport-reqwest-rust-tls", "worktree-mutation"] }
+clap = { version = "4", features = ["derive"] }
