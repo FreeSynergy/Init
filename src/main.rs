@@ -2,10 +2,10 @@
 // to a local path so the node can use packages offline.
 //
 // Usage:
-//   fsn-init                          → clones to ~/.local/share/fsn/store
-//   fsn-init --store-url <url>        → use a custom store URL
-//   fsn-init --target-dir <path>      → clone to a custom directory
-//   fsn-init --branch <branch>        → clone a specific branch
+//   fs-init                          → clones to ~/.local/share/fsn/store
+//   fs-init --store-url <url>        → use a custom store URL
+//   fs-init --target-dir <path>      → clone to a custom directory
+//   fs-init --branch <branch>        → clone a specific branch
 
 use std::path::PathBuf;
 use clap::Parser;
@@ -14,7 +14,7 @@ const DEFAULT_STORE_URL: &str = "https://github.com/FreeSynergy/Store.git";
 
 /// FreeSynergy Init — bootstraps a node by cloning the official store.
 #[derive(Parser, Debug)]
-#[command(name = "fsn-init", about = "Bootstrap FreeSynergy by cloning the store")]
+#[command(name = "fs-init", about = "Bootstrap FreeSynergy by cloning the store")]
 struct Args {
     /// Store Git repository URL to clone.
     #[arg(long, default_value = DEFAULT_STORE_URL)]
@@ -70,8 +70,8 @@ fn clone_store(url: &str, branch: &str, target: &std::path::Path) -> Result<(), 
     let branch = branch.to_owned();
     prepare = prepare.configure_remote(move |remote| {
         let spec = format!("+refs/heads/{branch}:refs/remotes/origin/{branch}");
-        remote.with_refspecs([spec.as_str()], gix::remote::Direction::Fetch)
-    })?;
+        Ok(remote.with_refspecs([spec.as_str()], gix::remote::Direction::Fetch)?)
+    });
 
     let (mut checkout, _outcome) = prepare.fetch_then_checkout(
         gix::progress::Discard,
