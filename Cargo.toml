@@ -9,5 +9,6 @@ name = "fs-init"
 path = "src/main.rs"
 
 [dependencies]
+fs-info = { path = "../fs-info" }
 gix = { version = "0.80", default-features = false, features = ["blocking-http-transport-reqwest-rust-tls", "worktree-mutation"] }
 clap = { version = "4", features = ["derive"] }
